@@ -1,0 +1,157 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Leaf Disease Prediction</title>
+    <style>
+        
+        .navbar {
+            background-color: #ede6c9;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+        }
+
+        .nav-link {
+            color: #ffffff;
+        }
+
+       
+        body {
+            background-color: #c5d5e5;
+            
+            background-image: url('{% static "bck/bck.jpg" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #1f1a1a; /* Set text color to white */
+        }
+        
+
+        .container {
+            margin-top: 20px;
+        }
+
+       
+        .output-section {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+       
+        form {
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        b {
+            font-weight: bold;
+        }
+        input[type="file"] {
+  padding: 8px;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+
+    </style>
+    <script>
+        function previewImage(event) {
+          const fileInput = event.target;
+          const file = fileInput.files[0];
+    
+          if (file) {
+            const reader = new FileReader();
+    
+            reader.onload = function(event) {
+              const imagePreview = document.getElementById('imagePreview');
+              const img = document.createElement('img');
+              img.src = event.target.result;
+              img.style.maxWidth = '200px'; // Adjust the maximum width of the preview
+              img.style.maxHeight = '200px'; // Adjust the maximum height of the preview
+              imagePreview.innerHTML = '';
+              imagePreview.appendChild(img);
+            }
+    
+            reader.readAsDataURL(file);
+          }
+        }
+      </script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light">
+   <h1><b> <a class="navbar-brand" href="#">Leaf Disease Prediction</a></b></h1>
+   
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            
+            
+        </ul>
+        
+    </div>
+</nav>
+{% if alert_message %}
+    <div class="alert alert-danger" role="alert">
+        {{ alert_message }}
+    </div>
+{% endif %}
+<div class="container mt-5">
+    {% block body  %}
+
+    {% endblock body %}
+    <form action="{% url 'index' %}" method="post" class="mt-4" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            
+        </div><h5>Upload Image</h5>
+        <div class="form-group">
+            <input type="file" name="file" accept="image/jpeg, image/png" onchange="previewImage(event)">
+            
+        </div>
+        <div id="imagePreview"></div> <br>
+        <div class="form-group">
+            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+            
+        </div>
+    </form>
+
+    <div class="mt-4 output-section">
+        <b>Output:</b> {{ result }}
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abt5X7f2Ajhxh"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-U7jyMg6IkzO4KY4F5Juzdw3ls/6z8Y1pXy2g+kf0TxPLZImizpELbBwV+3Bhq5fN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6p0mR8l+XlE9zIbbVYUew+OrCXaRkfjW"
+        crossorigin="anonymous"></script>
+</body>
+</html>
